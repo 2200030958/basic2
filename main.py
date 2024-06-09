@@ -8,14 +8,11 @@ from sklearn.ensemble import GradientBoostingRegressor
 from sklearn.preprocessing import scale
 from sklearn.decomposition import PCA
 
-# Load data
 data = pd.read_csv("kc_house_data.csv")
 
-# Data exploration
 print(data.head())
 print(data.describe())
 
-# Plotting
 data['bedrooms'].value_counts().plot(kind='bar')
 plt.title('Number of Bedrooms')
 plt.xlabel('Bedrooms')
@@ -65,10 +62,9 @@ plt.scatter(data.zipcode, data.price)
 plt.title("Which is the pricey location by zipcode?")
 plt.show()
 
-# Modeling
 reg = LinearRegression()
 clf = GradientBoostingRegressor(n_estimators=400, max_depth=5, min_samples_split=2,
-                                learning_rate=0.1, loss='ls')
+                                learning_rate=0.1, loss='squared_error')
 
 labels = data['price']
 conv_dates = [1 if values == 2014 else 0 for values in data.date]
@@ -82,7 +78,6 @@ print("Linear Regression Score:", reg.score(x_test, y_test))
 clf.fit(x_train, y_train)
 print("Gradient Boosting Regressor Score:", clf.score(x_test, y_test))
 
-# PCA
 pca = PCA()
 pca_data = pca.fit_transform(scale(train1))
 print(pca_data)
